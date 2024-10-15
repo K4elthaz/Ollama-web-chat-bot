@@ -4,15 +4,9 @@
 ollama serve > /usr/src/app/ollama_server.log 2>&1 &
 Ollama_pid=$!
 
-# Check if Ollama server started successfully
-if ! ps -p $Ollama_pid > /dev/null; then
-    echo "Failed to start Ollama server."
-    exit 1
-fi
-
-# Wait for Ollama to start
-echo "Waiting for Ollama to start..."
-sleep 10  # Adjust this time if needed
+# Give the Ollama server a few seconds to start
+echo "Waiting for Ollama server to start..."
+sleep 10  # Wait for 10 seconds before checking
 
 # Check if Ollama server is responsive
 for i in {1..10}; do
@@ -28,6 +22,7 @@ done
 # Check if we got a successful response
 if ! curl -s http://127.0.0.1:11434/health; then
     echo "Ollama server did not start properly."
+    echo "Check the log file for details: /usr/src/app/ollama_server.log"
     exit 1
 fi
 
