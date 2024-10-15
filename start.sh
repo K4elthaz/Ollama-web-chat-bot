@@ -4,16 +4,6 @@
 ollama serve > /usr/src/app/ollama_server.log 2>&1 &
 Ollama_pid=$!
 
-# Pull the llama3.2 model before starting the Ollama server
-echo "Pulling the llama3.2 model..."
-if ollama pull llama3.2; then
-    echo "Model pulled successfully."
-else
-    echo "Failed to pull the model. Check Ollama logs."
-    exit 1
-fi
-
-
 # Give the Ollama server a few seconds to start
 echo "Waiting for Ollama server to start..."
 sleep 10  # Wait for 10 seconds before checking
@@ -33,6 +23,15 @@ done
 if ! curl -s http://127.0.0.1:11434/; then
     echo "Ollama server did not start properly."
     echo "Check the log file for details: /usr/src/app/ollama_server.log"
+    exit 1
+fi
+
+# Pull the llama3.2 model before starting the Ollama server
+echo "Pulling the llama3.2 model..."
+if ollama pull llama3.2; then
+    echo "Model pulled successfully."
+else
+    echo "Failed to pull the model. Check Ollama logs."
     exit 1
 fi
 
