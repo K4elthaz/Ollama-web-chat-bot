@@ -1,21 +1,37 @@
 #!/bin/bash
 
 # Start Ollama server in the background and log output
+echo "Starting Ollama server..."
 ollama serve > ollama.log 2>&1 &
 if [ $? -ne 0 ]; then
     echo "Failed to start Ollama server."
     exit 1
 fi
 
-# Wait for Ollama to start
+# Wait for Ollama to start with retries
 echo "Waiting for Ollama to start..."
-sleep 50 
+for i in {1..10}; do
+    if curl -s http://localhost:11434/ > /dev/null; then
+        echo "Ollama server is running at http://localhost:11434."
+        break
+    fi
+    echo "Waiting... Attempt $i/10"
+    sleep 5
+done
 
-# List available models and log output
+# Check if Ollama server started successfully
+if ! curl -s http://localhost:11434/ > /dev/null; then
+    echo "Ollama server did not start in time. Check ollama.log for details."
+    cat ollama.log
+    exit 1
+fi
+
+# Log available models
 echo "Listing available models..."
 ollama list >> ollama.log 2>&1
 if [ $? -ne 0 ]; then
-    echo "Failed to list models."
+    echo "Failed to list models. Check ollama.log for details."
+    cat ollama.log
     exit 1
 fi
 
@@ -23,4 +39,5 @@ fi
 echo "Ollama server should be running at http://localhost:11434"
 
 # Start the Node.js app
+echo "Starting Node.js application..."
 node index.js

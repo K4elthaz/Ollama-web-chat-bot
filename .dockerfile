@@ -41,8 +41,8 @@ COPY start.sh .
 # Make the shell script executable
 RUN chmod +x start.sh
 
-# Expose ports for both services
-EXPOSE 10000 11434
+# Expose the ports
+EXPOSE 3000 11434
 
 # Use the shell script to start both the Ollama server and Node.js app
-CMD ["./start.sh"]
+CMD ["bash", "start.sh"]
