@@ -17,11 +17,9 @@ RUN apt-get update && apt-get install -y \
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
 
-# Install Ollama CLI
-RUN curl -fsSL https://ollama.com/install.sh | sh
-
-# Download the LLaMA 3.2 model
-RUN ollama pull llama3.2
+# Install Ollama CLI without GPU detection
+RUN curl -fsSL https://ollama.com/install.sh | sh -s -- --cpu \
+    && echo "Ollama installed successfully"
 
 # Set working directory for the Node.js app
 WORKDIR /usr/src/app
