@@ -3,7 +3,7 @@ const { Ollama } = require('ollama');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 3000;
 app.use(cors());
 const ollama = new Ollama({
     baseUrl: 'http://localhost:11434', // Connect to Ollama's default port

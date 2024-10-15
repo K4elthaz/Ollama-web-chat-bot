@@ -10,12 +10,12 @@ fi
 
 # Wait for Ollama to start with retries
 echo "Waiting for Ollama to start..."
-for i in {1..10}; do
+for i in {1..20}; do  # Increased attempts
     if curl -s http://localhost:11434/ > /dev/null; then
         echo "Ollama server is running at http://localhost:11434."
         break
     fi
-    echo "Waiting... Attempt $i/10"
+    echo "Waiting... Attempt $i/20"  # Updated attempt count
     sleep 5
 done
 
