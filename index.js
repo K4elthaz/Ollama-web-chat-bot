@@ -6,8 +6,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(cors());
 const ollama = new Ollama({
-    baseUrl: 'http://localhost:11434', // Ensure this is correct
+    baseUrl: 'http://localhost:10000', // Change this to the correct port
   });
+  
   
 // app.use(express.static('public'));
 app.use(express.json());

@@ -11,5 +11,8 @@ fi
 echo "Waiting for Ollama to start..."
 sleep 5 
 
+# Log the Ollama server URL
+echo "Ollama server should be running at http://localhost:10000"
+
 # Start the Node.js app
 node index.js
