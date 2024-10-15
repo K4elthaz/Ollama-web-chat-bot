@@ -17,7 +17,7 @@ app.post('/api/chat', async (req, res) => {
 
   try {
     const response = await ollama.chat({
-      model: 'llama3.2',
+      model: 'qwen2:0.5b',
       messages: [
         {
           role: 'system',

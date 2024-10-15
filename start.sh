@@ -28,7 +28,7 @@ fi
 
 # Pull the llama3.2 model before starting the Ollama server
 echo "Pulling the llama3.2 model..."
-if ollama pull qwen2:1.5b; then
+if ollama pull qwen2:0.5b; then
     echo "Model pulled successfully."
 else
     echo "Failed to pull the model. Check Ollama logs."
