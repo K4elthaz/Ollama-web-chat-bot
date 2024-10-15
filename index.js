@@ -6,7 +6,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(cors());
 const ollama = new Ollama({
-    baseUrl: 'http://localhost:11434', // Connect to Ollama's default port
+    baseUrl: 'http://0.0.0.0:11434', // Connect to Ollama's default port
   });
   
 // app.use(express.static('public'));
@@ -37,5 +37,5 @@ app.post('/api/chat', async (req, res) => {
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
+  console.log(`Server is running at 0.0.0.0:${PORT}`);
 });
