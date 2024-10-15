@@ -5,8 +5,10 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(cors());
-const ollama = new Ollama();
-
+const ollama = new Ollama({
+    baseUrl: 'http://localhost:11434', // Ensure this is correct
+  });
+  
 // app.use(express.static('public'));
 app.use(express.json());
 
