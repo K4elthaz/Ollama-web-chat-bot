@@ -22,21 +22,27 @@ RUN curl -o ollama https://ollama.com/download/OllamaCLI-linux \
     && chmod +x ollama \
     && mv ollama /usr/local/bin/
 
-# Download the LLaMA 3.2 model (ensure you have access to the model via Ollama)
+# Download the LLaMA 3.2 model
 RUN ollama pull llama3.2
 
-# Set working directory
+# Set working directory for the Node.js app
 WORKDIR /usr/src/app
 
-# Copy the package.json and install dependencies for your Node.js app
+# Copy package.json and install Node.js dependencies
 COPY package*.json ./
 RUN npm install
 
 # Copy the rest of the application code
 COPY . .
 
-# Expose the port for the Express app
-EXPOSE 3000
+# Copy the shell script to start both services
+COPY start.sh .
 
-# Start both Ollama and your Express app
-CMD ["npm", "start"]
+# Make the shell script executable
+RUN chmod +x start.sh
+
+# Expose ports for both services
+EXPOSE 3000 11434  # Ollama server (default 11434) and Express API (3000)
+
+# Use the shell script to start both the Ollama server and Node.js app
+CMD ["./start.sh"]
