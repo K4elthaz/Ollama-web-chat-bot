@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Start Ollama server in the background
+ollama serve > /usr/src/app/ollama_server.log 2>&1 &
+Ollama_pid=$!
+
 # Pull the llama3.2 model before starting the Ollama server
 echo "Pulling the llama3.2 model..."
 if ollama pull llama3.2; then
@@ -9,9 +13,6 @@ else
     exit 1
 fi
 
-# Start Ollama server in the background
-ollama serve > /usr/src/app/ollama_server.log 2>&1 &
-Ollama_pid=$!
 
 # Give the Ollama server a few seconds to start
 echo "Waiting for Ollama server to start..."
