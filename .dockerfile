@@ -21,13 +21,11 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
 RUN curl -fsSL https://ollama.com/install.sh | sh -s -- --cpu \
     && echo "Ollama installed successfully"
 
-RUN ollama pull llama3.2
-
 # Set working directory for the Node.js app
 WORKDIR /usr/src/app
 
 # Copy package.json and install Node.js dependencies
-COPY package*.json ./
+COPY package*.json ./ 
 RUN npm install
 
 # Copy the rest of the application code
