@@ -10,12 +10,12 @@ fi
 
 # Wait for Ollama to start with retries
 echo "Waiting for Ollama to start..."
-for i in {1..20}; do  # Increased attempts
+for i in {1..20}; do
     if curl -s http://localhost:11434/ > /dev/null; then
         echo "Ollama server is running at http://localhost:11434."
         break
     fi
-    echo "Waiting... Attempt $i/20"  # Updated attempt count
+    echo "Waiting... Attempt $i/20"
     sleep 5
 done
 
@@ -42,4 +42,4 @@ echo "Ollama server should be running at http://localhost:11434"
 
 # Start the Node.js app
 echo "Starting Node.js application..."
-node index.js
+node index.js >> ollama.log 2>&1  # Redirect Node.js app output to log

@@ -18,11 +18,13 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
 
 # Install Ollama CLI
-RUN curl -o /usr/local/bin/ollama https://ollama.com/download/OllamaCLI-linux \
-    && chmod +x /usr/local/bin/ollama
+RUN curl -o ollama https://ollama.com/download/OllamaCLI-linux \
+    && chmod +x ollama \
+    && mv ollama /usr/local/bin/ \
+    && ollama --version > /usr/src/app/ollama_install.log 2>&1  # Check version
 
-# Pull the LLaMA 3.2 model
-RUN /usr/local/bin/ollama pull llama3.2
+# Download the LLaMA 3.2 model
+RUN ollama pull llama3.2
 
 # Set working directory for the Node.js app
 WORKDIR /usr/src/app
