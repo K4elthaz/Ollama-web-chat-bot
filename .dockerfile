@@ -42,7 +42,7 @@ COPY start.sh .
 RUN chmod +x start.sh
 
 # Expose ports for both services
-EXPOSE 3000 11434  # Ollama server (default 11434) and Express API (3000)
+EXPOSE 3000 11434
 
 # Use the shell script to start both the Ollama server and Node.js app
 CMD ["./start.sh"]
