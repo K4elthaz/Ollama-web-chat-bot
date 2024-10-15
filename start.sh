@@ -22,7 +22,8 @@ done
 # Check if Ollama server started successfully
 if ! curl -s http://localhost:11434/ > /dev/null; then
     echo "Ollama server did not start in time. Check ollama.log for details."
-    cat ollama.log
+    echo "Contents of ollama.log:"
+    cat ollama.log  # Show the log contents here for better visibility
     exit 1
 fi
 
@@ -31,7 +32,8 @@ echo "Listing available models..."
 ollama list >> ollama.log 2>&1
 if [ $? -ne 0 ]; then
     echo "Failed to list models. Check ollama.log for details."
-    cat ollama.log
+    echo "Contents of ollama.log:"
+    cat ollama.log  # Show the log contents here for better visibility
     exit 1
 fi
 
