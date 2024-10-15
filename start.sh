@@ -1,6 +1,16 @@
 #!/bin/bash
 
 # Start Ollama server in the background
+
+echo "Pulling the llama3.2 model..."
+if ollama pull llama3.2; then
+    echo "Model pulled successfully."
+else
+    echo "Failed to pull the model. Check Ollama logs."
+    exit 1
+fi
+
+
 ollama serve > /usr/src/app/ollama_server.log 2>&1 &
 Ollama_pid=$!
 
@@ -30,13 +40,7 @@ fi
 echo "Ollama server should be running at http://localhost:11434"
 
 # Pull the model after the server has started
-echo "Pulling the llama3.2 model..."
-if ollama pull llama3.2; then
-    echo "Model pulled successfully."
-else
-    echo "Failed to pull the model. Check Ollama logs."
-    exit 1
-fi
+
 
 # Start the Node.js app
 node index.js
