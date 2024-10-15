@@ -1,48 +1,23 @@
-# Use an official Ubuntu base image
 FROM ubuntu:22.04
 
-# Set environment variables
-ENV DEBIAN_FRONTEND=noninteractive
+# Install necessary dependencies
+RUN apt-get update && apt-get install -y curl wget
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    curl \
-    wget \
-    build-essential \
-    git \
-    software-properties-common \
-    && rm -rf /var/lib/apt/lists/*
+# Install Node.js and NPM
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs
 
-# Install Node.js (for your Express app)
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
-    && apt-get install -y nodejs
+# Install Ollama (ensure this is the correct command for your setup)
+RUN curl -O https://ollama-install-url.sh && bash install-ollama.sh
 
-# Install Ollama CLI
-RUN curl -o ollama https://ollama.com/download/OllamaCLI-linux \
-    && chmod +x ollama \
-    && mv ollama /usr/local/bin/
-
-# Download the LLaMA 3.2 model
-RUN ollama pull llama3.2
-
-# Set working directory for the Node.js app
+# Copy the Node.js application
+COPY . /usr/src/app
 WORKDIR /usr/src/app
 
-# Copy package.json and install Node.js dependencies
-COPY package*.json ./
+# Install app dependencies
 RUN npm install
 
-# Copy the rest of the application code
-COPY . .
+# Expose both the Node.js and Ollama ports
+EXPOSE 10000 11434
 
-# Copy the shell script to start both services
-COPY start.sh .
-
-# Make the shell script executable
-RUN chmod +x start.sh
-
-# Expose ports for both services
-EXPOSE 3000 11434
-
-# Use the shell script to start both the Ollama server and Node.js app
+# Use a shell script to start both Ollama and Node.js
 CMD ["./start.sh"]

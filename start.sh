@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Start Ollama server in the background
-ollama serve --model llama3.2 &
+ollama serve &
 if [ $? -ne 0 ]; then
     echo "Failed to start Ollama server."
     exit 1
@@ -11,8 +11,12 @@ fi
 echo "Waiting for Ollama to start..."
 sleep 5 
 
+# List available models
+echo "Listing available models..."
+ollama list
+
 # Log the Ollama server URL
-echo "Ollama server should be running at http://localhost:10000"
+echo "Ollama server should be running at http://localhost:11434"
 
 # Start the Node.js app
 node index.js
