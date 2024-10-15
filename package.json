@@ -1,0 +1,22 @@
+{
+  "name": "ollama",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "prestart": "ollama pull llama3.2",
+    "start": "concurrently \"node index.js\" \"ollama serve\""
+
+  },
+  
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "ollama": "^0.5.9"
+  }
+}
