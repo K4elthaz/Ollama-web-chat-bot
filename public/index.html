@@ -109,51 +109,59 @@
   </div>
 
   <script>
-      document.getElementById('sendMessage').addEventListener('click', async () => {
-          const messageInput = document.getElementById('userMessage');
-          const userMessage = messageInput.value;
-          if (!userMessage) return;
+    // Function to append messages
+    function appendMessage(message, sender) {
+        const messagesDiv = document.getElementById('messages');
+        const messageElement = document.createElement('div');
+        messageElement.className = `message ${sender}`;
+        messageElement.textContent = message;
+        messagesDiv.appendChild(messageElement);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight; 
+    }
 
-          appendMessage(userMessage, 'user');
-          messageInput.value = '';
+    // Add an initial bot message when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        const initialMessage = "Hi, how are you feeling today? I'm here for you, you can share your thoughts with me.";
+        appendMessage(initialMessage, 'bot');
+    });
 
-          const spinner = document.getElementById('spinner');
-          spinner.style.display = 'block';
-          document.getElementById('sendMessage').disabled = true;
-          messageInput.disabled = true;
+    // Send message functionality
+    document.getElementById('sendMessage').addEventListener('click', async () => {
+        const messageInput = document.getElementById('userMessage');
+        const userMessage = messageInput.value;
+        if (!userMessage) return;
 
-          try {
-              const response = await fetch('http://195.26.255.19:3000/api/chat', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ message: userMessage }),
-              });
+        appendMessage(userMessage, 'user');
+        messageInput.value = '';
 
-              const data = await response.json();
-              if (response.ok) {
-                  appendMessage(data.reply, 'bot');
-              } else {
-                  appendMessage('An error occurred. Please try again.', 'bot');
-              }
-          } catch (error) {
-              console.error('Error:', error);
-              appendMessage('An error occurred. Please try again.', 'bot');
-          } finally {
-              spinner.style.display = 'none';
-              document.getElementById('sendMessage').disabled = false;
-              messageInput.disabled = false;
-              messageInput.focus(); 
-          }
-      });
+        const spinner = document.getElementById('spinner');
+        spinner.style.display = 'block';
+        document.getElementById('sendMessage').disabled = true;
+        messageInput.disabled = true;
 
-      function appendMessage(message, sender) {
-          const messagesDiv = document.getElementById('messages');
-          const messageElement = document.createElement('div');
-          messageElement.className = `message ${sender}`;
-          messageElement.textContent = message;
-          messagesDiv.appendChild(messageElement);
-          messagesDiv.scrollTop = messagesDiv.scrollHeight; 
-      }
-  </script>
+        try {
+            const response = await fetch('http://195.26.255.19:3000/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: userMessage }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                appendMessage(data.reply, 'bot');
+            } else {
+                appendMessage('An error occurred. Please try again.', 'bot');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            appendMessage('An error occurred. Please try again.', 'bot');
+        } finally {
+            spinner.style.display = 'none';
+            document.getElementById('sendMessage').disabled = false;
+            messageInput.disabled = false;
+            messageInput.focus(); 
+        }
+    });
+</script>
 </body>
 </html>
